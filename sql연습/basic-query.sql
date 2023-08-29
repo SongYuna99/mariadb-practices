@@ -32,5 +32,45 @@ select * from pet;
 -- UPDATE (DML-U)
 update pet set name='송코코' where name='코코';
 
+-- DELETE (DML-D)
+delete from pet where name='송코코';
+
+-- Load Data
+load data local infile 'C:\Dev\pet.txt' into table pet;
+
+update pet set death = null where death = '0000-00-00';
+
+-- select 연습
+-- 문제1. bowser의 주인 이름은?
+select owner from pet where name='bowser';
+
+-- 문제2. 1998년 이후에 태어난 동물 리스트
+select * from pet where birth>='1998-01-01';
+
+-- 문제3. 종이 뱀이거나 새인 동물 리스트
+select *from pet where species='snake' or species='bird';
+
+-- 문제4. order by ~ (asc/desc)
+select name, birth from pet order by birth asc;
+
+-- 문제5. where 절에 null 다루기 
+select name, birth, death from pet where death is not null;
+
+-- 문제6. like 검색 (패턴검색)
+select name from pet where name like 'b%';
+select name from pet where name like '%fy';
+select name from pet where name like '%w%';
+
+-- 문제7. 이름이 5글자인 동물
+select name from pet where name like '_____';		
+select name from pet where name like 'b_____';
+
+-- 문제8. 집계 : count, avg, sum, max, min ... 
+select count(*) from pet;	
+select max(birth) from pet;
+
+
+
+
 
 

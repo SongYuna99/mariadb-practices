@@ -20,7 +20,7 @@ MariaDB [(none)]> grant all privileges on webdb.* to 'webdb'@'192.168.%';
 MariaDB [(none)]> flush privileges;
 ```
 
-4. 확익하기
+4. 확인하기
 ```sh
 # mysql -u webdb -D webdb -p
 password:
