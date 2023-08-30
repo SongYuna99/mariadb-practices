@@ -45,3 +45,5 @@ where emp_no=10060;
 -- 옳게 작성한 쿼리문
 select emp_no '사번', avg(salary) '평균 급여', sum(salary) '급여 총합' from salaries
 group by emp_no having emp_no=10060;
+
+select gender, count(*) from employees group by gender;
