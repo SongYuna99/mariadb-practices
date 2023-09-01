@@ -3,7 +3,7 @@
 -- 
 
 -- abs : 절대값
-select abs(1), abs(-1) from dual;
+selsect abs(1), abs(-1) from dual;
 
 -- floor : 내림
 select floor(3.14), floor(3.9999) from dual;
