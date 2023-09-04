@@ -6,9 +6,9 @@ import java.util.Scanner;
 import hr.dao.EmployeesDao;
 import hr.vo.EmployeesVo;
 
-public class HRMain01 {
+public class HRMain02 {
 
-	// testFindByName
+	// testFindBySalary
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 
