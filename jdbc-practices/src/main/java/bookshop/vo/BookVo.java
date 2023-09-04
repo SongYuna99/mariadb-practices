@@ -1,38 +1,24 @@
 package bookshop.vo;
 
 public class BookVo {
-	private int bookNo;
+	private int no;
 	private String title;
+	private String rent;
+	private int authorNum;
 	private String author;
-	private int stateCode;
 
-	public BookVo(int bookNo, String title, String author) {
-		this.bookNo = bookNo;
-		this.title = title;
-		this.author = author;
-		this.stateCode = 1;
+	@Override
+	public String toString() {
+		return "책 번호 : " + no + ", 제목 : " + title + ", 작가 : " + author + ", 대여 유무 : "
+				+ ((rent.equals("N")) ? "재고있음]" : "대여중]");
 	}
 
-	public void rent() {
-		if (stateCode == 1) {
-			stateCode = 0;
-			System.out.println(title + "이(가) 대여 됐습니다.");
-		} else {
-			System.out.println("이미 대여중인 책입니다.");
-		}
+	public int getNo() {
+		return no;
 	}
 
-	public void print() {
-		System.out.println("책 제목 : " + title + ", 작가 : " + author + ", 대여 유무 : " + (stateCode == 1 ? "재고있음" : "대여중"));
-	}
-
-	// setter - getter
-	public int getBookNo() {
-		return bookNo;
-	}
-
-	public void setBookNo(int bookNo) {
-		this.bookNo = bookNo;
+	public void setNo(int no) {
+		this.no = no;
 	}
 
 	public String getTitle() {
@@ -41,5 +27,29 @@ public class BookVo {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getRent() {
+		return rent;
+	}
+
+	public void setRent(String rent) {
+		this.rent = rent;
+	}
+
+	public int getAuthorNum() {
+		return authorNum;
+	}
+
+	public void setAuthorNum(int authorNum) {
+		this.authorNum = authorNum;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 }
