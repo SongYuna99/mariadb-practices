@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bookmall.vo.MemberVo;
+import bookmall.vo.CartVo;
 
-public class MemberDao {
+public class CartDao {
 	// Insert
-	public boolean insertMember(MemberVo vo) {
+	public boolean insertCart(CartVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -24,13 +24,12 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "insert into member(name, tel, email, password) values(?, ?, ?, ?)";
+			String sql = "insert into cart(count, book_no, member_no) values(?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getTel());
-			pstmt.setString(3, vo.getEmail());
-			pstmt.setString(4, vo.getPassword());
+			pstmt.setInt(1, vo.getCount());
+			pstmt.setInt(2, vo.getBookNo());
+			pstmt.setInt(3, vo.getMemberNo());
 
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -55,7 +54,7 @@ public class MemberDao {
 	}
 
 	// update
-	public boolean updateMember(MemberVo vo) {
+	public boolean updateCart(CartVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -67,14 +66,11 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "update member set name=?, tel=?, email=?, password=? where no=?";
+			String sql = "update cart set count=? where no=?";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getTel());
-			pstmt.setString(3, vo.getEmail());
-			pstmt.setString(4, vo.getPassword());
-			pstmt.setInt(5, vo.getNo());
+			pstmt.setInt(1, vo.getCount());
+			pstmt.setInt(2, vo.getNo());
 
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -99,7 +95,7 @@ public class MemberDao {
 	}
 
 	// delete
-	public boolean deleteMember(int no) {
+	public boolean deleteCart(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -111,7 +107,7 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "delete from member where no=?";
+			String sql = "delete from cart where no=?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, no);
@@ -139,11 +135,11 @@ public class MemberDao {
 	}
 
 	// Select All
-	public List<MemberVo> findAllMember() {
+	public List<CartVo> findAllCart() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<MemberVo> result = new ArrayList<MemberVo>();
+		List<CartVo> result = new ArrayList<CartVo>();
 
 		try {
 			// Connection
@@ -152,25 +148,23 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "select no, name, tel, email, password from member";
+			String sql = "select no, count, book_no, member_no from book";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int no = rs.getInt(1);
-				String name = rs.getString(2);
-				String tel = rs.getString(3);
-				String email = rs.getString(4);
-				String password = rs.getString(5);
+				int count = rs.getInt(2);
+				int book_no = rs.getInt(34);
+				int member_no = rs.getInt(4);
 
-				MemberVo member = new MemberVo();
-				member.setNo(no);
-				member.setName(name);
-				member.setTel(tel);
-				member.setEmail(email);
-				member.setPassword(password);
+				CartVo cart = new CartVo();
+				cart.setNo(no);
+				cart.setCount(count);
+				cart.setBookNo(book_no);
+				cart.setMemberNo(member_no);
 
-				result.add(member);
+				result.add(cart);
 			}
 
 		} catch (ClassNotFoundException e) {

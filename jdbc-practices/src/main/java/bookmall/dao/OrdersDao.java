@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bookmall.vo.MemberVo;
+import bookmall.vo.OrdersVo;
 
-public class MemberDao {
+public class OrdersDao {
 	// Insert
-	public boolean insertMember(MemberVo vo) {
+	public boolean insertOrders(OrdersVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -24,13 +24,15 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "insert into member(name, tel, email, password) values(?, ?, ?, ?)";
+			String sql = "insert into orders(order_name, order_email, total_price, addr, member_no) "
+					+ "values(?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getTel());
-			pstmt.setString(3, vo.getEmail());
-			pstmt.setString(4, vo.getPassword());
+			pstmt.setString(1, vo.getOrderName());
+			pstmt.setString(2, vo.getOrderEmail());
+			pstmt.setInt(3, vo.getTotalPrice());
+			pstmt.setString(4, vo.getAddr());
+			pstmt.setInt(5, vo.getMemberNo());
 
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -55,7 +57,7 @@ public class MemberDao {
 	}
 
 	// update
-	public boolean updateMember(MemberVo vo) {
+	public boolean updateOrders(OrdersVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -67,13 +69,13 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "update member set name=?, tel=?, email=?, password=? where no=?";
+			String sql = "update orders set order_name=?, order_email=?, " + "total_price=?, addr=? where no=? ";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getTel());
-			pstmt.setString(3, vo.getEmail());
-			pstmt.setString(4, vo.getPassword());
+			pstmt.setString(1, vo.getOrderName());
+			pstmt.setString(2, vo.getOrderEmail());
+			pstmt.setInt(3, vo.getTotalPrice());
+			pstmt.setString(4, vo.getAddr());
 			pstmt.setInt(5, vo.getNo());
 
 			int count = pstmt.executeUpdate();
@@ -99,7 +101,7 @@ public class MemberDao {
 	}
 
 	// delete
-	public boolean deleteMember(int no) {
+	public boolean deleteOrders(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
@@ -111,7 +113,7 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "delete from member where no=?";
+			String sql = "delete from orders where no=?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, no);
@@ -139,11 +141,11 @@ public class MemberDao {
 	}
 
 	// Select All
-	public List<MemberVo> findAllMember() {
+	public List<OrdersVo> findAllOrders() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<MemberVo> result = new ArrayList<MemberVo>();
+		List<OrdersVo> result = new ArrayList<OrdersVo>();
 
 		try {
 			// Connection
@@ -152,25 +154,27 @@ public class MemberDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "select no, name, tel, email, password from member";
+			String sql = "select no, order_name, order_email, " + "" + "total_price, addr, member_no from orders";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int no = rs.getInt(1);
-				String name = rs.getString(2);
-				String tel = rs.getString(3);
-				String email = rs.getString(4);
-				String password = rs.getString(5);
+				String orderName = rs.getString(2);
+				String orderEmail = rs.getString(3);
+				int totalPrice = rs.getInt(4);
+				String addr = rs.getString(5);
+				int memberNo = rs.getInt(6);
 
-				MemberVo member = new MemberVo();
-				member.setNo(no);
-				member.setName(name);
-				member.setTel(tel);
-				member.setEmail(email);
-				member.setPassword(password);
+				OrdersVo orders = new OrdersVo();
+				orders.setNo(no);
+				orders.setOrderName(orderName);
+				orders.setOrderEmail(orderEmail);
+				orders.setTotalPrice(totalPrice);
+				orders.setAddr(addr);
+				orders.setMemberNo(memberNo);
 
-				result.add(member);
+				result.add(orders);
 			}
 
 		} catch (ClassNotFoundException e) {
