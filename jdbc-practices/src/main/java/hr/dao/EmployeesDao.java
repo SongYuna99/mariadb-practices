@@ -1,21 +1,22 @@
-package test;
+package hr.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SelectTest02 {
+import hr.vo.EmployeesVo;
 
-	public static void main(String[] args) {
-		searchEmployees("%no%");
-	}
+public class EmployeesDao {
 
-	public static void searchEmployees(String keyword) {
+	public List<EmployeesVo> findByName(String name) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<EmployeesVo> result = new ArrayList<EmployeesVo>();
 
 		try {
 			// 1. JDBC Driver Class 로딩
@@ -29,12 +30,11 @@ public class SelectTest02 {
 			String sql = "select emp_no, first_name, last_name " + "	from employees "
 					+ "	where first_name like ? and last_name like ?";
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, keyword);
-			pstmt.setString(2, keyword);
+
+			pstmt.setString(1, "%" + name + "%");
+			pstmt.setString(2, "%" + name + "%");
 
 			// 4. SQL 실행
-
 			rs = pstmt.executeQuery();
 
 			// 5. 결과 처리
@@ -43,7 +43,12 @@ public class SelectTest02 {
 				String firstName = rs.getString(2);
 				String lastName = rs.getString(3);
 
-				System.out.println(empNo + " : " + firstName + " " + lastName);
+				EmployeesVo vo = new EmployeesVo();
+				vo.setEmpNo(empNo);
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+
+				result.add(vo);
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패 : " + e);
@@ -65,6 +70,6 @@ public class SelectTest02 {
 				System.out.println("SQLException : " + e);
 			}
 		}
+		return result;
 	}
-
 }
