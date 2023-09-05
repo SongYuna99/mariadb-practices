@@ -1,5 +1,7 @@
 package bookmall.vo;
 
+import java.util.List;
+
 public class OrdersVo {
 	private int no;
 	private String orderName;
@@ -8,10 +10,12 @@ public class OrdersVo {
 	private String addr;
 	private int memberNo;
 
+	private List<OrdersBookVo> list;
+
 	@Override
 	public String toString() {
 		return "OrdersVo [no=" + no + ", orderName=" + orderName + ", orderEmail=" + orderEmail + ", totalPrice="
-				+ totalPrice + ", addr=" + addr + ", memberNo=" + memberNo + "]";
+				+ totalPrice + ", addr=" + addr + ", memberNo=" + memberNo + ", list=" + list + "]";
 	}
 
 	public int getNo() {
@@ -60,6 +64,14 @@ public class OrdersVo {
 
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
+	}
+
+	public List<OrdersBookVo> getList() {
+		return list;
+	}
+
+	public void setList(List<OrdersBookVo> list) {
+		this.list = list;
 	}
 
 }

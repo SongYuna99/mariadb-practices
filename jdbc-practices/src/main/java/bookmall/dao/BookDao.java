@@ -150,7 +150,9 @@ public class BookDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "select no, title, price, category_no from book";
+			String sql = "select a.no, a.title, a.price, a.category_no, b.name " 
+					+ "from book a, category b "
+					+ "where a.category_no=b.no order by a.no asc ";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -159,12 +161,14 @@ public class BookDao {
 				String title = rs.getString(2);
 				int price = rs.getInt(3);
 				int category_no = rs.getInt(4);
+				String categoryName = rs.getString(5);
 
 				BookVo book = new BookVo();
 				book.setNo(no);
 				book.setTitle(title);
 				book.setPrice(price);
 				book.setCategoryNo(category_no);
+				book.setCategoryName(categoryName);
 
 				result.add(book);
 			}

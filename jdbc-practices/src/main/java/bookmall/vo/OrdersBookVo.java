@@ -4,13 +4,13 @@ public class OrdersBookVo {
 	private int ordersNo;
 	private int bookNo;
 	private String title;
-	private int count;
 	private int price;
+	private int count;
 
 	@Override
 	public String toString() {
-		return "OrdersBookVo [ordersNo=" + ordersNo + ", bookNo=" + bookNo + ", title=" + title + ", count=" + count
-				+ ", price=" + price + "]";
+		return "OrdersBookVo [ordersNo=" + ordersNo + ", bookNo=" + bookNo + ", title=" + title + ", price=" + price
+				+ ", count=" + count + "]";
 	}
 
 	public int getOrdersNo() {
@@ -37,20 +37,20 @@ public class OrdersBookVo {
 		this.title = title;
 	}
 
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
 	public int getPrice() {
 		return price;
 	}
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 }

@@ -1,6 +1,6 @@
 package bookmall.main;
 
-public class BookMall {
+public class BookMallApp {
 	public static void main(String[] args) {
 //		MemberDao memberDao = new MemberDao();
 //

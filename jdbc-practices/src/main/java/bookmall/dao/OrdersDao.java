@@ -154,7 +154,11 @@ public class OrdersDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "select no, order_name, order_email, " + "" + "total_price, addr, member_no from orders";
+			String sql = "select o.no, o.order_name, o.order_email, o.addr, o.total_price, "
+					+ "ob.book_no, ob.title, ob.price, ob.count, m.no "
+					+ "from orders o, orders_book ob, book b, member m "
+					+ "where o.no=ob.orders_no and o.member_no=m.no "
+					+ "and ob.book_no=b.no order by o.no asc ";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();

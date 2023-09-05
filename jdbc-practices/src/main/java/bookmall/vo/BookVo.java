@@ -6,9 +6,12 @@ public class BookVo {
 	private int price;
 	private int categoryNo;
 
+	private String categoryName;
+
 	@Override
 	public String toString() {
-		return "BookVo [no=" + no + ", title=" + title + ", price=" + price + ", categoryNo=" + categoryNo + "]";
+		return "BookVo [no=" + no + ", title=" + title + ", price=" + price + ", categoryNo=" + categoryNo
+				+ ", categoryName=" + categoryName + "]";
 	}
 
 	public int getNo() {
@@ -41,6 +44,14 @@ public class BookVo {
 
 	public void setCategoryNo(int categoryNo) {
 		this.categoryNo = categoryNo;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 }
