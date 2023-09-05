@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bookmall.vo.OrdersBookVo;
 import bookmall.vo.OrdersVo;
 
 public class OrdersDao {
@@ -154,11 +155,9 @@ public class OrdersDao {
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 
 			// SQL & Statement
-			String sql = "select o.no, o.order_name, o.order_email, o.addr, o.total_price, "
-					+ "ob.book_no, ob.title, ob.price, ob.count, m.no "
+			String sql = "select o.no, o.order_name, o.order_email, o.addr, o.total_price, m.no "
 					+ "from orders o, orders_book ob, book b, member m "
-					+ "where o.no=ob.orders_no and o.member_no=m.no "
-					+ "and ob.book_no=b.no order by o.no asc ";
+					+ "where o.no=ob.orders_no and o.member_no=m.no " + "and ob.book_no=b.no order by o.no asc ";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -166,8 +165,8 @@ public class OrdersDao {
 				int no = rs.getInt(1);
 				String orderName = rs.getString(2);
 				String orderEmail = rs.getString(3);
-				int totalPrice = rs.getInt(4);
-				String addr = rs.getString(5);
+				String addr = rs.getString(4);
+				int totalPrice = rs.getInt(5);
 				int memberNo = rs.getInt(6);
 
 				OrdersVo orders = new OrdersVo();
@@ -180,6 +179,106 @@ public class OrdersDao {
 
 				result.add(orders);
 			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패 : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e);
+			}
+		}
+		return result;
+	}
+
+	// Select All
+	public List<OrdersBookVo> findAllOrdersBook(int orderNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<OrdersBookVo> result = new ArrayList<OrdersBookVo>();
+
+		try {
+			// Connection
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.0.186:3307/bookmall?charset=utf8";
+			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
+
+			// SQL & Statement
+			String sql = "select orders_no, book_no, title, count, price " + "from orders_book where orders_no=? ";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, orderNo);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int ordersNo = rs.getInt(1);
+				int bookNo = rs.getInt(2);
+				String title = rs.getString(3);
+				int count = rs.getInt(4);
+				int price = rs.getInt(5);
+
+				OrdersBookVo vo = new OrdersBookVo();
+				vo.setOrdersNo(ordersNo);
+				vo.setBookNo(bookNo);
+				vo.setTitle(title);
+				vo.setCount(count);
+				vo.setPrice(price);
+
+				result.add(vo);
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패 : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e);
+			}
+		}
+		return result;
+	}
+
+	// Insert
+	public boolean insertOrdersBook(OrdersBookVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+
+		try {
+			// Connection
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.0.186:3307/bookmall?charset=utf8";
+			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
+
+			// SQL & Statement
+			String sql = "insert orders_book values(?, ?, ?, ?, ?);";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, vo.getOrdersNo());
+			pstmt.setInt(2, vo.getBookNo());
+			pstmt.setString(3, vo.getTitle());
+			pstmt.setInt(4, vo.getCount());
+			pstmt.setInt(5, vo.getPrice());
+
+			int count = pstmt.executeUpdate();
+			result = count == 1;
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패 : " + e);

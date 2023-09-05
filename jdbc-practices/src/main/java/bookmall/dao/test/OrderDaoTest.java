@@ -1,5 +1,6 @@
 package bookmall.dao.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,27 +42,24 @@ public class OrderDaoTest {
 		new OrdersDao().deleteOrders(no);
 	}
 
-	private static void showMembers() {
-		List<MemberVo> list = new MemberDao().findAllMember();
-
-		for (MemberVo vo : list) {
-			System.out.print("번호 : " + vo.getNo());
-			System.out.print(", 이름 : " + vo.getName());
-			System.out.print(", 전화번호 : " + vo.getTel());
-			System.out.println(", 이메일 : " + vo.getEmail());
-		}
-	}
-
 	private static void doInsert() {
-		showMembers();
+		System.out.print("order_name >> ");
+		String orderName = scanner.nextLine();
+		System.out.print("order_email >> ");
+		String orderEmail = scanner.nextLine();
+		System.out.print("addr >> ");
+		String addr = scanner.nextLine();
 		System.out.print("member_no >> ");
-		int memberNo = scanner.nextInt();
+		int member_no = scanner.nextInt();
+		
+		OrdersVo order = new OrdersVo();
+		order.setAddr(addr);
+		order.setMemberNo(member_no);
+		order.setOrderEmail(orderEmail);
+		order.setOrderName(orderName);
+		order.setTotalPrice(0);
+		new OrdersDao().insertOrders(order);
 
-//		showCartsByMemberNo(memberNo);
-//		System.out.print("cart_no >> ");
-//		int cart_no = scanner.nextInt();
-
-//		new OrdersDao().insertCart(vo);
 	}
 
 	private static void doList() {
