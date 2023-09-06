@@ -172,12 +172,11 @@ public class BookMallApp {
 		List<OrdersBookVo> list = new OrdersDao().findAllOrdersBook(orderNo);
 
 		for (OrdersBookVo vo : list) {
-			System.out.print("	책 번호 : " + vo.getBookNo());
+			System.out.print("	-> 책 번호 : " + vo.getBookNo());
 			System.out.print(", 제목 : " + vo.getTitle());
 			System.out.print(", 가격 : " + vo.getPrice());
 			System.out.println(", 개수 : " + vo.getCount());
 		}
-		System.out.println("---------");
 	}
 
 	private static void showCartList() {
